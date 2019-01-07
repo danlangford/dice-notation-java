@@ -16,13 +16,6 @@
 
 package com.bernardomg.tabletop.dice.parser.listener;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import java.util.Iterator;
-import java.util.Stack;
-
-import org.antlr.v4.runtime.tree.TerminalNode;
-
 import com.bernardomg.tabletop.dice.DefaultDice;
 import com.bernardomg.tabletop.dice.Dice;
 import com.bernardomg.tabletop.dice.generated.DiceNotationBaseListener;
@@ -35,7 +28,14 @@ import com.bernardomg.tabletop.dice.notation.operand.DiceOperand;
 import com.bernardomg.tabletop.dice.notation.operand.IntegerOperand;
 import com.bernardomg.tabletop.dice.notation.operation.AdditionOperation;
 import com.bernardomg.tabletop.dice.notation.operation.BinaryOperation;
+import com.bernardomg.tabletop.dice.notation.operation.MultiplicationOperation;
 import com.bernardomg.tabletop.dice.notation.operation.SubtractionOperation;
+import org.antlr.v4.runtime.tree.TerminalNode;
+
+import java.util.Iterator;
+import java.util.Stack;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Visitor for an ANTLR4 parser tree. It can return the fully parsed
@@ -74,6 +74,11 @@ public final class DefaultDiceExpressionBuilder extends DiceNotationBaseListener
      * Operator which indicates the operation is a subtraction.
      */
     private static final String                 SUBTRACTION_OPERATOR = "-";
+
+    /**
+     * Operator which indicates the operation is a multiplication.
+     */
+    private static final String                 MULTIPLICATION_OPERATOR    = "*";
 
     /**
      * Stack to store operands from the outer nodes in an operation.
@@ -158,6 +163,8 @@ public final class DefaultDiceExpressionBuilder extends DiceNotationBaseListener
             operation = new AdditionOperation(left, right);
         } else if (SUBTRACTION_OPERATOR.equals(operator)) {
             operation = new SubtractionOperation(left, right);
+        } else if (MULTIPLICATION_OPERATOR.equals(operator)) {
+            operation = new MultiplicationOperation(left, right);
         } else {
             throw new IllegalArgumentException(
                     String.format("The %s operator is invalid", operator));

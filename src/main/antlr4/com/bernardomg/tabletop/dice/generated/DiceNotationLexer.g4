@@ -25,7 +25,7 @@ lexer grammar DiceNotationLexer;
 
 OPERATOR
 :
-   ( ADD | SUB )
+   ( ADD | SUB | MULT | DIV )
 ;
 
 // Operators
@@ -38,6 +38,16 @@ ADD
 SUB
 :
    '-'
+;
+
+MULT
+:
+   '*'
+;
+
+DIV
+:
+   '/'
 ;
 
 // Dice markers
